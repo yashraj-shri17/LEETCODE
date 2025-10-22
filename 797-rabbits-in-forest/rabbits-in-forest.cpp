@@ -1,11 +1,15 @@
 class Solution {
 public:
     int numRabbits(vector<int>& arr) {
+        /*
+        * Space Complexity :- O(n)
+        * Time Complexity :- O(n)
+        */
         unordered_map<int,int>mp;
         int ans = 0;
         for(int i=0;i<arr.size();i++){
             if(mp.find(arr[i]+1)==mp.end()){
-                // found the key
+                // not present
                 ans = ans + arr[i]+1;
             }
             mp[arr[i]+1]++;
