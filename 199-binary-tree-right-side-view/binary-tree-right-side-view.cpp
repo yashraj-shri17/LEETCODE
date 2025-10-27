@@ -25,8 +25,7 @@ public:
         helper(root->right , curr+1 , level , ans);
     }
     void level_order(TreeNode* root , vector<int>& ans){
-        int n_levels = level_cal(root);
-        for(int i = 1 ; i <= n_levels ; i++){
+        for(int i = 1 ; i <= ans.size() ; i++){
             helper(root , 1 , i , ans);
         }
     }
