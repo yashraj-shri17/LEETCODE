@@ -15,7 +15,7 @@ public:
         if(root==NULL) return;
         if(root->left==NULL && root->right==NULL){
             if(tsum==root->val){
-                v.push_back(tsum);
+                v.push_back(root->val);
                 ans.push_back(v);
             }
             return;
