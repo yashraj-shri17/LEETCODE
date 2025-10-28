@@ -21,7 +21,7 @@ public:
             return;
         }
         v.push_back(root->val);
-        helper(root->left,v,ans,tsum-root->val);
+        helper(root->left,v,ans,tsum-(root->val));
         helper(root->right,v,ans,tsum-(root->val));
     }
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
