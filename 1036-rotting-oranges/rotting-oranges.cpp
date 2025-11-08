@@ -27,9 +27,7 @@ public:
                 for(int d = 0 ; d < 4 ; d++){
                 int nr = row + dir[d][0];
                 int nc = col + dir[d][1];
-                if(nr<0 || nr >= grid.size() || nc<0 || nc>=grid[0].size()) continue;
-                if(grid[nr][nc]==0) continue;
-                if(grid[nr][nc]==2) continue;
+                if(nr<0 || nr >= grid.size() || nc<0 || nc>=grid[0].size() || grid[nr][nc]==0 || grid[nr][nc]==2) continue;
                 queue.push({nr,nc});
                 fo--;
                 grid[nr][nc]=2;
