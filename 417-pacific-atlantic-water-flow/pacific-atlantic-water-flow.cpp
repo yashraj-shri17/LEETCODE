@@ -15,9 +15,11 @@ public:
         qu_pacific.push({i,0});
         qu_atlantic.push({i,col-1});
        }
+       // pushing row->0 pacific
        for(int j = 1 ; j < col ; j++){
         qu_pacific.push({0,j});
        }
+       // pushing row->last atlantic
        for(int j = 0 ; j < col-1 ; j++){
         qu_atlantic.push({row-1,j});
        }
@@ -25,7 +27,7 @@ public:
        pacificbfs = bfs(qu_pacific);
        vector<vector<bool>>atlanticbfs; // areas where atlantic water can reach
        atlanticbfs = bfs(qu_atlantic);
-       vector<vector<int>>answer;
+       vector<vector<int>>answer; // common areas
        for(int i = 0 ; i < row ; i++){
         for(int j = 0 ; j < col ; j++){
             if(atlanticbfs[i][j] && pacificbfs[i][j]) answer.push_back({i,j});
