@@ -19,7 +19,6 @@ public:
             queue.pop();
             int row = ele.first;
             int col = ele.second;
-            cout<<row<<" "<<col<<"\n";
             if(row==-1 and col==-1){
                 ans++;
                 if(queue.size()==0) break;
