@@ -3,9 +3,8 @@ public:
     vector<list<int>>graph;
     vector<int>res_ans;
     int n;
-    void add_edge(int from , int to , bool bi_dir = true){
-        graph[from].push_back(to);
-        if(bi_dir) graph[to].push_back(from);
+    void add_edge(int from , int to){
+        graph[from].push_back(to); // alaways directed supposed to be 
     }
     void kahns_algo(){
         vector<int>indegree(n,0);
@@ -41,7 +40,7 @@ public:
         for(int i = 0 ; i < prereq.size() ; i++){
             int from = prereq[i][1];
             int to = prereq[i][0];
-            add_edge(from , to , false);
+            add_edge(from , to);
         }
         kahns_algo();
         if(res_ans.size()<numCourses) return {};
