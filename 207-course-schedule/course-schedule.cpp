@@ -8,14 +8,12 @@ public:
         if(bi_dir) graph[to].push_back(from);
     }
     void kahns_algo(){
-        // calcualting indegree array;
         vector<int>indegree(n,0);
         for(int i = 0 ; i < n ; i++){
             for(auto neighbours : graph[i]){
                 indegree[neighbours]++;
             }
         }
-        // getting 0 waale 
         queue<int>qu;
         unordered_set<int>vis;
         for(int i = 0 ; i < n ; i++){
@@ -37,11 +35,9 @@ public:
             }
         }
     }
-    // edge 1->0
     bool canFinish(int numCourses, vector<vector<int>>& prereq) {
         n = numCourses;
         graph.resize(n,list<int>());
-        // create graph;
         for(int i = 0 ; i < prereq.size() ; i++){
             int from = prereq[i][1];
             int to = prereq[i][0];
