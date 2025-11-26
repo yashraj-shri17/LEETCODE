@@ -25,6 +25,6 @@ public:
             }
             dp.swap(newdp);
         }
-        return dp[n-1][0]-2+2;
+        return dp[n-1][0];
     }
 };
