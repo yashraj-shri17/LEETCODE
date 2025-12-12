@@ -16,7 +16,6 @@ public:
     int fbu(vector<int>& nums){
         int n = nums.size();
         if(n==1) return nums[n-1];
-        if(n==2) return max(nums[n-2] , nums[n-2+1]);
         dp.clear();
         dp.resize(105,-1);
         dp[n-1] = nums[n-1];
