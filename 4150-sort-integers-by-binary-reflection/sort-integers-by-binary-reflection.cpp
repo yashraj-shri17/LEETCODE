@@ -4,12 +4,8 @@ public:
     vector<int> sortByReflection(vector<int>& nums) {
         for(auto x : nums){
             string bin = bitset<32>(x).to_string();
-            bin = bin.substr(bin.find('1'));   // "1101"
-
-            // step 2: reverse binary
-            reverse(bin.begin(), bin.end());   // "1011"
-
-            // step 3: binary -> decimal
+            bin = bin.substr(bin.find('1'));
+            reverse(bin.begin(), bin.end());
             int ans = stoi(bin, nullptr, 2);
             pq.push({ans , x});
         }
