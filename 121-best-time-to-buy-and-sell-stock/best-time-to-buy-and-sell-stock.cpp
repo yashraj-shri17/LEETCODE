@@ -10,10 +10,7 @@ public:
             maxi = max(maxi , prices[i]);
         }
         int global_max = INT_MIN;
-        maxi = INT_MIN;
-        for(int i = 0 ; i < n-1 ; i++){
-            global_max = max(global_max , max_arr[i]-prices[i]);
-        }
+        for(int i = 0 ; i < n-1 ; i++) global_max = max(global_max , max_arr[i]-prices[i]);
         if(global_max<0) return 0;
         return global_max;
     }
