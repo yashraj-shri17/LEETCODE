@@ -1,33 +1,39 @@
 class Solution {
 public:
+    vector<pair<int,int>>directions = {
+        {-1,0},{1,0},{0,1},{0,-1}
+    };
+    void dfs(int row , int col , vector<vector<char>>& board){
+        if(row<0 || col<0 || row>=board.size() || col>=board[0].size() || board[row][col]!='O' ) return;
+        board[row][col]='z';
+
+        for(int i = 0 ; i < 4 ; i++){
+            int crow = row + directions[i].first;
+            int ccol = col + directions[i].second;
+            dfs(crow , ccol , board);
+        }
+    }
     void solve(vector<vector<char>>& board) {
+        vector<pair<int,int>>border_zeroes;
         int n = board.size();
-        if(n == 0) return;
         int m = board[0].size();
-        queue<pair<int,int>> q;
-        for(int j = 0; j < m; j++) {
-            if(board[0][j] == 'O') { board[0][j] = '-'; q.push({0,j}); }
-            if(board[n-1][j] == 'O') { board[n-1][j] = '-'; q.push({n-1,j}); }
+        for(int row = 0 ; row<n ; row++){
+            if(board[row][0]=='O')border_zeroes.push_back({row,0});
+            if(board[row][m-1]=='O')border_zeroes.push_back({row,m-1});
         }
-        for(int i = 1; i < n-1; i++) {
-            if(board[i][0] == 'O') { board[i][0] = '-'; q.push({i,0}); }
-            if(board[i][m-1] == 'O') { board[i][m-1] = '-'; q.push({i,m-1}); }
+        for(int col=1 ; col<m-1 ; col++){
+            if(board[0][col]=='O')border_zeroes.push_back({0,col});
+            if(board[n-1][col]=='O')border_zeroes.push_back({n-1,col});
         }
-        vector<vector<int>> dir = {{1,0},{-1,0},{0,1},{0,-1}};
-        while(!q.empty()) {
-            auto [r, c] = q.front(); q.pop();
-            for(auto d : dir) {
-                int nr = r + d[0], nc = c + d[1];
-                if(nr>=0 && nr<n && nc>=0 && nc<m && board[nr][nc]=='O') {
-                    board[nr][nc] = '-';
-                    q.push({nr,nc});
-                }
-            }
+        for(int i = 0 ; i < border_zeroes.size() ; i++){
+            int row = border_zeroes[i].first;
+            int col = border_zeroes[i].second;
+            dfs(row,col,board);
         }
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                if(board[i][j]=='O') board[i][j]='X';
-                else if(board[i][j]=='-') board[i][j]='O';
+        for(int i = 0 ; i < n ; i++){
+            for(int j=0 ; j < m ; j++){
+                if(board[i][j]=='O')board[i][j]='X';
+                if(board[i][j]=='z')board[i][j]='O';
             }
         }
     }
