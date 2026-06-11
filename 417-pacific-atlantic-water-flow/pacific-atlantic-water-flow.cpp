@@ -40,23 +40,16 @@ public:
     at_border.push_back({0,m-1});
     pa_border.push_back({n-1,0});
 
-    for(auto x : pa_border){
-        cout<<x.first<<" "<<x.second<<"\n";
-    }
-    cout<<"\n";
-    for(auto x : at_border){
-        cout<<x.first<<" "<<x.second<<"\n";
-    }
     for(int i = 0 ; i < pa_border.size() ; i++){
         int r_no = pa_border[i].first;
         int c_no = pa_border[i].second;
-        if(pacific[r_no][c_no]==false) dfs(r_no , c_no , pacific);
+        dfs(r_no , c_no , pacific);
     }
 
     for(int i = 0 ; i < at_border.size() ; i++){
         int r_no = at_border[i].first;
         int c_no = at_border[i].second;
-        if(atlantic[r_no][c_no]==false) dfs(r_no , c_no , atlantic);
+        dfs(r_no , c_no , atlantic);
     }
 
     vector<vector<int>>ans;
