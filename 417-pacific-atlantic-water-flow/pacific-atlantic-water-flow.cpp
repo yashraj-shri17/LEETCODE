@@ -1,59 +1,71 @@
 class Solution {
 public:
-    int row;
-    int col;
-    vector<vector<int>> grid;
-    vector<vector<int>> dir = {{-1,0},{1,0},{0,-1},{0,1}};
-    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
-       row = heights.size();
-       col = heights[0].size();
-       grid = heights ;
-       queue<pair<int,int>>qu_pacific;
-       queue<pair<int,int>>qu_atlantic;
-       // pushing col->0 and col->last in pacific and atlantic
-       for(int i = 0 ; i < row ; i++){
-        qu_pacific.push({i,0});
-        qu_atlantic.push({i,col-1});
-       }
-       // pushing row->0 pacific
-       for(int j = 1 ; j < col ; j++){
-        qu_pacific.push({0,j});
-       }
-       // pushing row->last atlantic
-       for(int j = 0 ; j < col-1 ; j++){
-        qu_atlantic.push({row-1,j});
-       }
-       vector<vector<bool>>pacificbfs; // areas where pacific water can reach
-       pacificbfs = bfs(qu_pacific);
-       vector<vector<bool>>atlanticbfs; // areas where atlantic water can reach
-       atlanticbfs = bfs(qu_atlantic);
-       vector<vector<int>>answer; // common areas
-       for(int i = 0 ; i < row ; i++){
-        for(int j = 0 ; j < col ; j++){
-            if(atlanticbfs[i][j] && pacificbfs[i][j]) answer.push_back({i,j});
+    vector<pair<int,int>>directions = {
+        {-1,0},
+        {1,0},
+        {0,-1},
+        {0,1}
+    };
+    vector<vector<int>>copy;
+    void bfs(int row , int col , vector<vector<bool>> &grid ){
+        if(row<0 || row>=grid.size() || col<0 || col>=grid[0].size() || grid[row][col]==true) return;
+        grid[row][col] = true;
+        for(int i=0;i<directions.size();i++){
+            int c_row = row+directions[i].first;
+            int c_col = col+directions[i].second;
+            if( c_row<0 || c_row>=grid.size() || c_col<0 || c_col>=grid[0].size() || copy[c_row][c_col]>=copy[row][col])bfs(c_row,c_col,grid);
         }
-       }
-       return answer;
     }
-    vector<vector<bool>> bfs(queue<pair<int,int>>& queue){
-        vector<vector<bool>> visited(row, vector<bool>(col, false));
-        while(queue.size()>0){
-            auto front = queue.front();
-            queue.pop();
-            int front_row = front.first;
-            int front_col = front.second;
-            visited[front_row][front_col] = true;
-            // now iterate on all four direction ;
-            for(int d = 0 ; d < 4 ; d++){
-                int nr = front_row + dir[d][0];
-                int nc = front_col + dir[d][1];
-                if(nr < 0 || nr >= row || nc < 0 || nc >= col) continue;
-                if(visited[nr][nc]==true) continue;
-                if(grid[nr][nc] < grid[front_row][front_col]) continue;
-                visited[nr][nc] = true;
-                queue.push({nr,nc});
-            }
+    vector<vector<int>> pacificAtlantic(vector<vector<int>>& heights) {
+     int n = heights.size();
+     int m = heights[0].size();
+     copy = heights;
+
+    //initalisting required things
+     vector<vector<bool>> pacific(n, vector<bool>(m, false));
+     vector<vector<bool>> atlantic(n, vector<bool>(m, false));
+     vector<pair<int, int>> pa_border;
+     vector<pair<int, int>> at_border;
+
+
+    //adding border elements
+    for(int col = 0 ; col < m ; col++){
+        pa_border.push_back({0,col});
+        at_border.push_back({n-1,col});
+    }
+    for(int row = 1 ; row < n-1 ; row++){
+        pa_border.push_back({row,0});
+        at_border.push_back({row,m-1});
+    }
+    at_border.push_back({0,m-1});
+    pa_border.push_back({n-1,0});
+    for(auto x : pa_border){
+        cout<<x.first<<" "<<x.second<<"\n";
+    }
+    cout<<"\n";
+    for(auto x : at_border){
+        cout<<x.first<<" "<<x.second<<"\n";
+    }
+    for(int i = 0 ; i < pa_border.size() ; i++){
+        int r_no = pa_border[i].first;
+        int c_no = pa_border[i].second;
+        if(pacific[r_no][c_no]==false) bfs(r_no , c_no , pacific);
+    }
+
+    for(int i = 0 ; i < at_border.size() ; i++){
+        int r_no = at_border[i].first;
+        int c_no = at_border[i].second;
+        if(atlantic[r_no][c_no]==false) bfs(r_no , c_no , atlantic);
+    }
+
+    vector<vector<int>>ans;
+
+    for(int i = 0 ; i < n ; i++){
+        for(int j = 0 ; j < m  ; j++){
+            if(atlantic[i][j] && pacific[i][j]) ans.push_back({i,j});
         }
-        return visited;
+    }
+
+    return ans;
     }
 };
